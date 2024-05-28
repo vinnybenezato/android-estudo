@@ -1,5 +1,8 @@
 package com.example.retrofit_app.presenter
 
+import android.annotation.SuppressLint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import com.example.retrofit_app.model.Endereco
 import com.example.retrofit_app.model.CepInterface
 import com.example.retrofit_app.view.MainActivity
@@ -22,30 +25,20 @@ class MainPresenter(private val view: MainActivity, private val service: CepInte
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun getAddress(cep: String) {
-        val call = service.getAddress(cep)
-
-        call.enqueue(object : Callback<Endereco> {
-            override fun onResponse(call: Call<Endereco>, response: Response<Endereco>) {
-                if (response.isSuccessful) {
-                    val address = response.body()
-                    address?.let {
-                        val enderecoString = "CEP: ${address.cep}\n" +
-                                "Logradouro: ${address.logradouro}\n" +
-                                "Bairro: ${address.bairro}\n" +
-                                "Cidade: ${address.localidade}\n" +
-                                "Estado: ${address.uf}"
-
-                        view.showResult(enderecoString)
-                    }
-                } else {
-                    view.showError("CEP não encontrado!")
-                }
-            }
-
-            override fun onFailure(call: Call<Endereco>, t: Throwable) {
-                view.showError("Erro ao buscar CEP: ${t.message}")
-            }
-        })
+        service.getAddress(cep)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ address ->
+                val enderecoString = "CEP: ${address.cep}\n" +
+                        "Logradouro: ${address.logradouro}\n" +
+                        "Bairro: ${address.bairro}\n" +
+                        "Cidade: ${address.localidade}\n" +
+                        "Estado: ${address.uf}"
+                view.showResult(enderecoString)
+            }, { error ->
+                view.showError("Erro ao buscar CEP: ${error.message}")
+            })
     }
 }
