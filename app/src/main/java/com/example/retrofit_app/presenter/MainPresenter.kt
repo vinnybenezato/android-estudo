@@ -3,12 +3,8 @@ package com.example.retrofit_app.presenter
 import android.annotation.SuppressLint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import com.example.retrofit_app.model.Endereco
 import com.example.retrofit_app.model.CepInterface
 import com.example.retrofit_app.view.MainActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainPresenter(private val view: MainActivity, private val service: CepInterface) :
     MainContract.Presenter {
