@@ -39,7 +39,7 @@ class MainPresenter(private val view: MainActivity, private val service: CepInte
                         view.showResult(enderecoString)
                     }
                 } else {
-                    view.showError("CEP não encontrado")
+                    view.showError("CEP não encontrado!")
                 }
             }
 
