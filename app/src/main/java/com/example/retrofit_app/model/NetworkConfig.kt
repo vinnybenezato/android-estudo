@@ -3,6 +3,7 @@ package com.example.retrofit_app.model
 import android.annotation.SuppressLint
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
@@ -16,6 +17,7 @@ object NetworkConfig {
     val retrofit = Retrofit.Builder()
         .baseUrl("https://viacep.com.br/ws/")
         .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .client(getUnsafeOkHttpClient())
         .build()
 
