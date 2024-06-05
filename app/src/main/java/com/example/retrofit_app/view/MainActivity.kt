@@ -40,6 +40,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun showInvalidCEPError() {
         binding.resultTextView.text = "CEP inválido, digite um CEP válido, por favor"
     }
+
+    override fun onDestroy() {
+        presenter.unbindView()
+        super.onDestroy()
+    }
 }
 
 

@@ -11,5 +11,6 @@ interface MainContract {
         interface Presenter {
             fun getAddress(cep: String)
             fun getAddressOrShowError(cep: String)
+            fun unbindView()
         }
 }
