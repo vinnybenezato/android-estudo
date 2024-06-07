@@ -37,6 +37,12 @@ android {
     buildFeatures{
         viewBinding = true
     }
+//    testOptions{
+//        unitTests.all {
+//            useJUnitPlatform()
+//        }
+//    }
+
 
 }
 
@@ -50,6 +56,15 @@ dependencies {
     //rxjava:
     implementation("io.reactivex.rxjava3:rxjava:3.1.2")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
+//    implementation("junit:junit:4.12")
+//    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+//    implementation("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+
+    //JUnit
+    testImplementation("junit:junit:4.13.2")
+
+    //Mockk
+    testImplementation("io.mockk:mockk:1.12.5")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

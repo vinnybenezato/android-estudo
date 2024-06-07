@@ -1,12 +1,15 @@
 package com.example.retrofit_app.presenter
 
 import com.example.retrofit_app.model.CepInterface
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 
-class MainPresenter(private var view: MainContract.View?, private val service: CepInterface) :
-    MainContract.Presenter {
+class MainPresenter(
+    private var view: MainContract.View?,
+    private val service: CepInterface,
+    private val subscribeOnScheduler: Scheduler,
+    private val observerOnScheduler: Scheduler,
+) : MainContract.Presenter {
     private val compositeDisposable = CompositeDisposable()
     private fun isValidCEP(cep: String): Boolean {
         return cep.length >= 8
@@ -27,8 +30,8 @@ class MainPresenter(private var view: MainContract.View?, private val service: C
 
     override fun getAddress(cep: String) {
         val serviceCall = service.getAddress(cep)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(subscribeOnScheduler)
+            .observeOn(observerOnScheduler)
             .subscribe({ address ->
                 val enderecoString = "CEP: ${address.cep}\n" +
                         "Logradouro: ${address.logradouro}\n" +
