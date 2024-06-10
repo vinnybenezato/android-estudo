@@ -34,6 +34,14 @@ class MainPresenterTest {
     }
 
     @Test
+    fun `test getAddressOrShowError with service error`() {
+        val errorMessage = "Erro no servidor"
+        every { mockService.getAddress(any()) } returns Single.error(Throwable(errorMessage))
+        presenter.getAddressOrShowError("12345678")
+        verify { mockView.showError("Erro ao buscar CEP: $errorMessage") }
+    }
+
+    @Test
     fun `test getAddressOrShowError with invalid CEP`() {
         presenter.getAddressOrShowError("1234")
         verify { mockView.showInvalidCEPError() }
